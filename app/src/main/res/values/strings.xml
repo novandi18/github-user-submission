@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Github User</string>
+    <string name="cari_username">Cari username</string>
+    <string name="search">Cari</string>
+    <string name="title_activity_user">UserActivity</string>
+    <string name="tab_text_1">Following</string>
+    <string name="tab_text_2">Followers</string>
+    <string name="user_detail">User Detail</string>
+</resources>
