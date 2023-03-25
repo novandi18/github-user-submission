@@ -1,5 +1,6 @@
-package com.novandi.githubuser
+package com.novandi.githubuser.api
 
+import com.novandi.githubuser.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

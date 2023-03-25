@@ -1,9 +1,10 @@
-package com.novandi.githubuser
+package com.novandi.githubuser.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.novandi.githubuser.api.UserItems
 import com.novandi.githubuser.databinding.ItemRowUserBinding
 
 class ListUserAdapter(private val listUser: List<UserItems>) : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
