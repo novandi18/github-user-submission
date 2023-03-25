@@ -1,4 +1,4 @@
-package com.novandi.githubuser
+package com.novandi.githubuser.ui.user
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
+import com.novandi.githubuser.R
 import com.novandi.githubuser.ui.main.SectionsPagerAdapter
 import com.novandi.githubuser.databinding.ActivityUserBinding
 
@@ -27,9 +28,8 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbarDetail)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.toolbarDetail.setNavigationOnClickListener { finish() }
+
+        binding.userAppBar.setNavigationOnClickListener { finish() }
 
         val username = intent.getStringExtra("username")
         showUserData(username.toString())
@@ -48,6 +48,13 @@ class UserActivity : AppCompatActivity() {
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
+
+        binding.userAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.user_favorite -> {true}
+                else -> { false }
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")

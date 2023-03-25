@@ -1,4 +1,4 @@
-package com.novandi.githubuser
+package com.novandi.githubuser.api
 
 import com.google.gson.annotations.SerializedName
 

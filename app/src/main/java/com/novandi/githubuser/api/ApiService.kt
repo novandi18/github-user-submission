@@ -1,4 +1,4 @@
-package com.novandi.githubuser
+package com.novandi.githubuser.api
 
 import retrofit2.Call
 import retrofit2.http.GET

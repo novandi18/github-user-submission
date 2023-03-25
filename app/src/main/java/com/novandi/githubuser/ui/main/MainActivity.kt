@@ -1,4 +1,4 @@
-package com.novandi.githubuser
+package com.novandi.githubuser.ui.main
 
 import android.app.SearchManager
 import android.content.Context
@@ -10,9 +10,20 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.novandi.githubuser.R
+import com.novandi.githubuser.api.UserItems
 import com.novandi.githubuser.databinding.ActivityMainBinding
+import com.novandi.githubuser.ui.settings.*
+import com.novandi.githubuser.ui.user.UserActivity
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -24,6 +35,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.elevation = 0f
+
+        val preferences = SettingsPreferences.getInstance(dataStore)
+        val settingsViewModel = ViewModelProvider(this, SettingsViewModelFactory(preferences))[SettingsViewModel::class.java]
+        settingsViewModel.getThemeSetting().observe(this) { isDarkMode: Boolean ->
+            if (isDarkMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
         val layoutManager = GridLayoutManager(this, 2)
         binding.rvGithub.layoutManager = layoutManager
@@ -76,6 +97,13 @@ class MainActivity : AppCompatActivity() {
         })
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.settings -> startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun showResult() {

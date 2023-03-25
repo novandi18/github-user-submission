@@ -1,4 +1,4 @@
-package com.novandi.githubuser
+package com.novandi.githubuser.ui.user
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.novandi.githubuser.api.UserItems
 import com.novandi.githubuser.databinding.FragmentFollowBinding
 
 class FollowFragment : Fragment() {

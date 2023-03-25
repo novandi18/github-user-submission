@@ -1,8 +1,12 @@
-package com.novandi.githubuser
+package com.novandi.githubuser.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.novandi.githubuser.Event
+import com.novandi.githubuser.api.GithubResponse
+import com.novandi.githubuser.api.UserItems
+import com.novandi.githubuser.api.ApiConfig
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

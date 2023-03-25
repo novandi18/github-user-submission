@@ -3,7 +3,9 @@
     <color name="blue_200">#0364DA</color>
     <color name="blue_700">#024EAA</color>
     <color name="black">#282828</color>
+    <color name="solid_black">#1C1C1C</color>
     <color name="grey">#DFDFDF</color>
     <color name="grey_dark">#393939</color>
     <color name="white">#FFFFFF</color>
+    <color name="red_500">#EA1652</color>
 </resources>

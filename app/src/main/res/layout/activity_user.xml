@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserActivity">
+    tools:context=".ui.user.UserActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,24 +13,12 @@
         android:background="@color/black">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_detail"
+            android:id="@+id/user_appBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:textAlignment="center"
-            app:contentInsetStart="0dp">
-
-            <TextView
-                android:id="@+id/title_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?actionBarSize"
-                android:gravity="center"
-                android:layout_marginEnd="?actionBarSize"
-                android:text="@string/user_detail"
-                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                android:textColor="@color/white" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
+            app:title="User Detail"
+            app:menu="@menu/user_menu"
+            app:navigationIcon="@drawable/ic_arrow_back" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
