@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.novandi.githubuser.api.UserItems
 import com.novandi.githubuser.databinding.FragmentFollowBinding
+import com.novandi.githubuser.ui.main.MainActivity
 
 class FollowFragment : Fragment() {
     private var _binding: FragmentFollowBinding? = null
@@ -55,7 +56,7 @@ class FollowFragment : Fragment() {
             listFollowAdapter.setOnItemClickCallback(object : ListFollowAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: UserItems) {
                     val intent = Intent(activity, UserActivity::class.java)
-                    intent.putExtra("username", data.usernameItem)
+                    intent.putExtra(MainActivity.EXTRA_USER_MAIN, data.username)
                     activity?.startActivity(intent)
                 }
             })

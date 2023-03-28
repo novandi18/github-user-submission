@@ -7,19 +7,30 @@ import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import com.google.android.material.tabs.TabLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.novandi.githubuser.R
+import com.novandi.githubuser.database.UserFavorite
 import com.novandi.githubuser.ui.main.SectionsPagerAdapter
 import com.novandi.githubuser.databinding.ActivityUserBinding
+import com.novandi.githubuser.helper.ViewModelFactory
+import com.novandi.githubuser.ui.main.MainActivity
 
+@Suppress("DEPRECATION")
 class UserActivity : AppCompatActivity() {
+    private var userFavorite: UserFavorite? = null
+    private var username: String? = null
+
     private lateinit var binding: ActivityUserBinding
+    private lateinit var userFavoriteViewModel: UserFavoriteViewModel
     private val userViewModel by viewModels<UserViewModel>()
 
     companion object {
+        const val EXTRA_USER_FAV = "extra_user_fav"
         @StringRes
         private val TAB_TITLES = intArrayOf(R.string.tab_text_1, R.string.tab_text_2)
     }
@@ -28,33 +39,44 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userFavoriteViewModel = obtainUserFavoriteViewModel(this@UserActivity)
+        userFavorite = intent.getParcelableExtra(EXTRA_USER_FAV)
+        if (userFavorite == null) userFavorite = UserFavorite()
+        userFavorite?.let {
+            username = if (it.username == null) intent.getStringExtra(MainActivity.EXTRA_USER_MAIN) else it.username.toString()
+        }
 
         binding.userAppBar.setNavigationOnClickListener { finish() }
+        binding.userAppBar.menu.getItem(0).icon?.setTint(resources.getColor(R.color.grey))
 
-        val username = intent.getStringExtra("username")
         showUserData(username.toString())
         userViewModel.snackbarText.observe(this) {
             it.getContentIfNotHandled()?.let { snackbarText ->
                 Snackbar.make(window.decorView.rootView, snackbarText, Snackbar.LENGTH_SHORT).show()
             }
         }
+        userFavoriteViewModel.snackbarText.observe(this) {
+            it.getContentIfNotHandled()?.let { snackbarText ->
+                Snackbar.make(window.decorView.rootView, snackbarText, Snackbar.LENGTH_SHORT).show()
+            }
+        }
         userViewModel.isLoading.observe(this) { showLoading(it) }
+        userFavoriteViewModel.isUserFavorite(username.toString()).observe(this) { isFav ->
+            if (isFav) {
+                val btnFavoriteToggle = binding.userAppBar.menu.getItem(0)
+                btnFavoriteToggle.isChecked = isFav
+                btnFavoriteToggle.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite)
+            }
+        }
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
         val viewPager: ViewPager2 = binding.viewPager
-        if (username != null) sectionsPagerAdapter.username = username
+        if (username != null) sectionsPagerAdapter.username = username as String
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = binding.tabs
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
-
-        binding.userAppBar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.user_favorite -> {true}
-                else -> { false }
-            }
-        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -71,7 +93,40 @@ class UserActivity : AppCompatActivity() {
             }
             binding.tvFollowingDetail.text = "${user.followingTotal} Following"
             binding.tvFollowersDetail.text = "${user.followersTotal} Followers"
+
+            setUserFavorite(user.id, username, user.avatarUrl)
         }
+    }
+
+    private fun setUserFavorite(id: Int, username: String, avatarUrl: String) {
+        binding.userAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.btn_user_favorite -> {
+                    menuItem.isChecked = !menuItem.isChecked
+                    userFavorite.let { userFav ->
+                        userFav?.id = id
+                        userFav?.username = username
+                        userFav?.avatarUrl = avatarUrl
+                    }
+
+                    if (menuItem.isChecked) {
+                        userFavoriteViewModel.insertUser(userFavorite as UserFavorite)
+                        menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite)
+                    } else {
+                        userFavoriteViewModel.deleteUser(userFavorite as UserFavorite)
+                        menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite_outlined)
+                    }
+
+                    false
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun obtainUserFavoriteViewModel(activity: AppCompatActivity): UserFavoriteViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[UserFavoriteViewModel::class.java]
     }
 
     private fun showLoading(isLoading: Boolean) {

@@ -21,9 +21,9 @@ class ListUserAdapter(private val listUser: List<UserItems>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (usernameItem, avatarUrlItem) = listUser[position]
-        Glide.with(holder.itemView.context).load(avatarUrlItem).into(holder.binding.ivUser)
-        holder.binding.tvUser.text = usernameItem
+        val (_, username, avatarUrl) = listUser[position]
+        Glide.with(holder.itemView.context).load(avatarUrl).into(holder.binding.ivUser)
+        holder.binding.tvUser.text = username
         holder.binding.cvUser.setOnClickListener {
             onItemClickCallback.onItemClicked(listUser[holder.adapterPosition])
         }

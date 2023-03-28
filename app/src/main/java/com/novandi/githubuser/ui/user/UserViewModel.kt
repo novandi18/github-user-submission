@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.novandi.githubuser.Event
-import com.novandi.githubuser.api.GithubResponse
 import com.novandi.githubuser.api.UserItems
 import com.novandi.githubuser.api.ApiConfig
 import retrofit2.Call
@@ -12,8 +11,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class UserViewModel : ViewModel() {
-    private val _user = MutableLiveData<GithubResponse>()
-    val user: LiveData<GithubResponse> = _user
+    private val _user = MutableLiveData<UserItems>()
+    val user: LiveData<UserItems> = _user
 
     private val _userFollow = MutableLiveData<List<UserItems>>()
     val userFollow: LiveData<List<UserItems>> = _userFollow
@@ -27,10 +26,10 @@ class UserViewModel : ViewModel() {
     fun getUser(username: String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getUser(username)
-        client.enqueue(object : Callback<GithubResponse> {
+        client.enqueue(object : Callback<UserItems> {
             override fun onResponse(
-                call: Call<GithubResponse>,
-                response: Response<GithubResponse>
+                call: Call<UserItems>,
+                response: Response<UserItems>
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
@@ -40,7 +39,7 @@ class UserViewModel : ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserItems>, t: Throwable) {
                 _isLoading.value = false
                 _snackbarText.value = Event(t.message.toString())
             }
