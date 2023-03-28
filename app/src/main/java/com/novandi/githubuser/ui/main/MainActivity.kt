@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.novandi.githubuser.R
 import com.novandi.githubuser.api.UserItems
 import com.novandi.githubuser.databinding.ActivityMainBinding
+import com.novandi.githubuser.ui.favorite.FavoriteActivity
 import com.novandi.githubuser.ui.settings.*
 import com.novandi.githubuser.ui.user.UserActivity
 
@@ -102,6 +103,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settings -> startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+            R.id.favorite -> startActivity(Intent(this@MainActivity, FavoriteActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }
@@ -114,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             listUserAdapter.setOnItemClickCallback(object : ListUserAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: UserItems) {
                     val intent = Intent(this@MainActivity, UserActivity::class.java)
-                    intent.putExtra(TAG_USERNAME, data.usernameItem)
+                    intent.putExtra(EXTRA_USER_MAIN, data.username)
                     startActivity(intent)
                 }
             })
@@ -127,6 +129,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val TAG_USERNAME = "username"
+        const val EXTRA_USER_MAIN = "extra_user"
     }
 }

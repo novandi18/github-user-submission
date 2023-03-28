@@ -18,7 +18,9 @@
             android:layout_height="?attr/actionBarSize"
             app:title="User Detail"
             app:menu="@menu/user_menu"
-            app:navigationIcon="@drawable/ic_arrow_back" />
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/grey"
+            app:titleTextColor="@color/grey"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

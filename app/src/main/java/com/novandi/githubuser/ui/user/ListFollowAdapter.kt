@@ -29,9 +29,9 @@ class ListFollowAdapter(private val listFollow: List<UserItems>) : RecyclerView.
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (usernameItem, avatarUrlItem) = listFollow[position]
-        Glide.with(holder.itemView.context).load(avatarUrlItem).into(holder.binding.photoFollow)
-        holder.binding.usernameFollow.text = usernameItem
+        val (_, username, avatarUrl) = listFollow[position]
+        Glide.with(holder.itemView.context).load(avatarUrl).into(holder.binding.photoFollow)
+        holder.binding.usernameFollow.text = username
         holder.binding.cardFollow.setOnClickListener {
             onItemClickCallback.onItemClicked(listFollow[holder.adapterPosition])
         }

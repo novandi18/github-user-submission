@@ -1,6 +1,8 @@
 package com.novandi.githubuser.api
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class GithubResponse(
 	@field:SerializedName("total_count")
@@ -11,6 +13,12 @@ data class GithubResponse(
 
 	@field:SerializedName("items")
 	val items: List<UserItems>,
+)
+
+@Parcelize
+data class UserItems(
+	@field:SerializedName("id")
+	val id: Int,
 
 	@field:SerializedName("login")
 	val username: String,
@@ -28,13 +36,5 @@ data class GithubResponse(
 	val email: String?,
 
 	@field:SerializedName("name")
-	val name: String
-)
-
-data class UserItems(
-	@field:SerializedName("login")
-	val usernameItem: String,
-
-	@field:SerializedName("avatar_url")
-	val avatarUrlItem: String,
-)
+	val name: String,
+) : Parcelable

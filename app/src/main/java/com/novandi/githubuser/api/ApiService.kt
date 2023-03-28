@@ -10,7 +10,7 @@ interface ApiService {
     fun getListUser(@Query("q") username: String) : Call<GithubResponse>
 
     @GET("users/{username}")
-    fun getUser(@Path("username") username: String) : Call<GithubResponse>
+    fun getUser(@Path("username") username: String) : Call<UserItems>
 
     @GET("users/{username}/following")
     fun getUserFollowing(@Path("username") username: String) : Call<List<UserItems>>
