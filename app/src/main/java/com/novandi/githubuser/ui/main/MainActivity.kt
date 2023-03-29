@@ -70,6 +70,9 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchQuery = query
                 mainViewModel.isLoading.observe(this@MainActivity) { showLoading(it) }
+                mainViewModel.isEmpty.observe(this@MainActivity) { isEmpty ->
+                    binding.ivNotFound.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                }
                 mainViewModel.searchUsers(query!!)
                 showResult()
                 return true
@@ -81,14 +84,20 @@ class MainActivity : AppCompatActivity() {
         })
 
         menu.findItem(R.id.search).setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
+            override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
+                binding.rvGithub.visibility = View.GONE
                 return true
             }
 
-            override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
+            override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
+                binding.rvGithub.visibility = View.VISIBLE
+
                 if (searchQuery != null) {
                     mainViewModel.searchUsers()
                     mainViewModel.isLoading.observe(this@MainActivity) { showLoading(it) }
+                    mainViewModel.isEmpty.observe(this@MainActivity) { isEmpty ->
+                        binding.ivNotFound.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                    }
                     showResult()
                     searchQuery = null
                 }
@@ -109,6 +118,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showResult() {
+        binding.ivNotFound.visibility = View.GONE
+
         mainViewModel.users.observe(this) { users ->
             val listUserAdapter = ListUserAdapter(users)
             binding.rvGithub.adapter = listUserAdapter

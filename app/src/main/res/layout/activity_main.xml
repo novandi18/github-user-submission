@@ -4,19 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity"
-    android:paddingHorizontal="8dp">
+    tools:context=".ui.main.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_github"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:paddingHorizontal="8dp"
         android:overScrollMode="never"
         android:scrollbarSize="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_not_found"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/not_found"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"

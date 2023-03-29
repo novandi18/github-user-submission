@@ -2,6 +2,7 @@ package com.novandi.githubuser.ui.favorite
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -26,6 +27,7 @@ class FavoriteActivity : AppCompatActivity() {
         val favoriteViewModel = obtainFavoriteViewModel(this@FavoriteActivity)
         favoriteViewModel.getAllUsers().observe(this) { userFavList ->
             if (userFavList != null) {
+                binding?.ivEmpty?.visibility = if (userFavList.isNotEmpty()) View.GONE else View.VISIBLE
                 adapter.setListFavorite(userFavList)
             }
         }
