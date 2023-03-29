@@ -12,4 +12,11 @@
         android:checkable="true"
         android:checked="false"/>
 
+    <item
+        android:id="@+id/btn_user_share"
+        android:icon="@drawable/ic_share"
+        android:contentDescription="@string/share"
+        app:showAsAction="ifRoom"
+        android:title="@string/share" />
+
 </menu>

@@ -1,6 +1,7 @@
 package com.novandi.githubuser.ui.user
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -67,7 +68,6 @@ class UserActivity : AppCompatActivity() {
                 btnFavoriteToggle.isChecked = isFav
                 btnFavoriteToggle.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite)
                 btnFavoriteToggle.icon?.setTint(resources.getColor(R.color.grey))
-
             }
         }
 
@@ -118,6 +118,18 @@ class UserActivity : AppCompatActivity() {
                         userFavoriteViewModel.deleteUser(userFavorite as UserFavorite)
                         menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite_outlined)
                     }
+
+                    false
+                }
+                R.id.btn_user_share -> {
+                    val shareUser: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, "Kunjungi profil Github dari $username untuk mendapatkan source code terbaru!\n " +
+                                "link profil : https://github.com/$username")
+                        type = "text/plain"
+                    }
+                    val shareIntent = Intent.createChooser(shareUser, null)
+                    startActivity(shareIntent)
 
                     false
                 }

@@ -12,4 +12,5 @@
     <string name="general">General</string>
     <string name="delete_favorite">delete_favorite</string>
     <string name="splash_screen">Splash Screen</string>
+    <string name="share">Share</string>
 </resources>
