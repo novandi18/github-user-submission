@@ -66,6 +66,8 @@ class UserActivity : AppCompatActivity() {
                 val btnFavoriteToggle = binding.userAppBar.menu.getItem(0)
                 btnFavoriteToggle.isChecked = isFav
                 btnFavoriteToggle.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite)
+                btnFavoriteToggle.icon?.setTint(resources.getColor(R.color.grey))
+
             }
         }
 
